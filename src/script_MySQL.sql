@@ -226,7 +226,7 @@ CREATE VIEW RideStatistic AS
     SELECT 
         c.UserLogin,
         p.CompletedRideId,
-        sec_to_time(MAX(p.date)-MIN(p.date)) AS Duration,
+        sec_to_time(TIMESTAMPDIFF(SECOND, MIN(p.Date), MAX(p.Date))) AS Duration,
         ROUND(Max(l.speed),1) AS MaxSpeed,
         ROUND(AVG(l.speed),1) AS AvgSpeed,
         0 AS Calories,
@@ -253,7 +253,7 @@ CREATE VIEW UserCompletedRide AS
         crp.CompletedRideId,
         p.Name AS PlannedRideName,
         MIN(crp.Date) AS StartedAt,
-        sec_to_time(MAX(crp.Date)-MIN(crp.Date)) AS Duration,
+        sec_to_time(TIMESTAMPDIFF(SECOND, MIN(crp.Date), MAX(crp.Date))) AS Duration,
         calculateDistance(MIN(l.`LocationId`),MAX(l.`LocationId`)) AS Distance
     FROM CompletedRidePoint crp
     INNER JOIN Location l ON l.LocationId = crp.LocationId
