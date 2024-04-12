@@ -263,6 +263,18 @@ CREATE VIEW UserCompletedRide AS
     GROUP BY crp.CompletedRideId
     ORDER BY StartedAt DESC;
 
+CREATE VIEW UserPlannedRide AS
+    SELECT
+        pr.UserLogin,
+        prp.PlannedRideId,
+        pr.Name AS PlannedRideName,
+        calculateDistance(MIN(l.`LocationId`),MAX(l.`LocationId`)) AS Distance
+    FROM PlannedRidePoint prp
+    INNER JOIN Location l ON l.LocationId = prp.LocationId
+    INNER JOIN PlannedRide pr ON pr.PlannedRideId = prp.PlannedRideId
+    GROUP BY prp.PlannedRideId
+    ORDER BY pr.Name DESC;
+
 INSERT INTO User (UserLogin)
     VALUES ('admin')
     ON DUPLICATE KEY UPDATE UserLogin = VALUES(UserLogin);
