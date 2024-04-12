@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS PlannedRide (
 
 -- DROP TABLE PlannedRidePoint;
 CREATE TABLE IF NOT EXISTS PlannedRidePoint (
-	PlannedRideId VARCHAR(36) PRIMARY KEY,
+	PlannedRideId VARCHAR(36),
     LocationId INT NOT NULL,
     RideStep INT NULL,
     Temperature DECIMAL(3,1) NULL
@@ -168,6 +168,7 @@ ALTER TABLE CompletedRidePoint
 	ADD  FOREIGN KEY (LocationId) REFERENCES Location(LocationId),
     ADD  FOREIGN KEY (CompletedRideId) REFERENCES CompletedRide(CompletedRideId);
 ALTER TABLE PlannedRidePoint
+ADD PRIMARY KEY (PlannedRideId, LocationId),
 	ADD FOREIGN KEY (LocationId) REFERENCES Location(LocationId),
     ADD  FOREIGN KEY (PlannedRideId) REFERENCES PlannedRide(PlannedRideId);
 ALTER TABLE PlannedRide 

@@ -126,9 +126,9 @@ VALUES
 
 
 
-use tracksense;
-select * from completedRide;
-select * from completedridepoint;
-select * from plannedRIdePoint;
-select * from location;
-select * from RideStatistic;
+-- use tracksense;
+-- select * from completedRide;
+-- select * from completedridepoint;
+-- select * from plannedRIdePoint;
+-- select * from location;
+-- select * from RideStatistic;
