@@ -1,6 +1,6 @@
 -- Active: 1696214803360@@MYSQL5049.site4now.net@3306@db_a9f4cd_track
 
--- DROP DATABASE tracksense;
+DROP DATABASE IF EXISTS tracksense;
 
 CREATE DATABASE IF NOT EXISTS `tracksense`;
 
@@ -262,6 +262,18 @@ CREATE VIEW UserCompletedRide AS
     LEFT JOIN PlannedRide p ON p.`PlannedRideId` = c.`PlannedRideId` 
     GROUP BY crp.CompletedRideId
     ORDER BY StartedAt DESC;
+
+CREATE VIEW UserPlannedRide AS
+    SELECT
+        pr.UserLogin,
+        prp.PlannedRideId,
+        pr.Name AS PlannedRideName,
+        calculateDistance(MIN(l.`LocationId`),MAX(l.`LocationId`)) AS Distance
+    FROM PlannedRidePoint prp
+    INNER JOIN Location l ON l.LocationId = prp.LocationId
+    INNER JOIN PlannedRide pr ON pr.PlannedRideId = prp.PlannedRideId
+    GROUP BY prp.PlannedRideId
+    ORDER BY pr.Name DESC;
 
 INSERT INTO User (UserLogin)
     VALUES ('admin')
