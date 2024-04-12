@@ -1,7 +1,7 @@
 -- drop database tracksense;
 -- CREATE DATABASE tracksense;
 use tracksense;
-INSERT INTO user (Userlogin) VALUES ('admin');
+-- INSERT INTO user (Userlogin) VALUES ('admin');
 
 INSERT INTO Location (Latitude, Longitude,Speed)
 VALUES
@@ -59,7 +59,7 @@ VALUES
 ('46.787110','-71.287310',7),
 ('46.787110','-71.287340',1),
 ('46.786940','-71.287310',1);
-Select * from location;
+Select * from Location;
 INSERT INTO PlannedRide (PlannedRideId, Userlogin,`Name`)
 VALUES
     ('2854D652-F4FB-EB65-6807-A49E7A031D6E', 'admin', 'le tour de la ville');
