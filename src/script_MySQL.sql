@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS PlannedRide (
 
 -- DROP TABLE PlannedRidePoint;
 CREATE TABLE IF NOT EXISTS PlannedRidePoint (
-	PlannedRideId VARCHAR(36) PRIMARY KEY,
+	PlannedRideId VARCHAR(36),
     LocationId INT NOT NULL,
     RideStep INT NULL,
     Temperature DECIMAL(3,1) NULL
@@ -168,6 +168,7 @@ ALTER TABLE CompletedRidePoint
 	ADD  FOREIGN KEY (LocationId) REFERENCES Location(LocationId),
     ADD  FOREIGN KEY (CompletedRideId) REFERENCES CompletedRide(CompletedRideId);
 ALTER TABLE PlannedRidePoint
+ADD PRIMARY KEY (PlannedRideId, LocationId),
 	ADD FOREIGN KEY (LocationId) REFERENCES Location(LocationId),
     ADD  FOREIGN KEY (PlannedRideId) REFERENCES PlannedRide(PlannedRideId);
 ALTER TABLE PlannedRide 
@@ -261,6 +262,18 @@ CREATE VIEW UserCompletedRide AS
     LEFT JOIN PlannedRide p ON p.`PlannedRideId` = c.`PlannedRideId` 
     GROUP BY crp.CompletedRideId
     ORDER BY StartedAt DESC;
+
+CREATE VIEW UserPlannedRide AS
+    SELECT
+        pr.UserLogin,
+        prp.PlannedRideId,
+        pr.Name AS PlannedRideName,
+        calculateDistance(MIN(l.`LocationId`),MAX(l.`LocationId`)) AS Distance
+    FROM PlannedRidePoint prp
+    INNER JOIN Location l ON l.LocationId = prp.LocationId
+    INNER JOIN PlannedRide pr ON pr.PlannedRideId = prp.PlannedRideId
+    GROUP BY prp.PlannedRideId
+    ORDER BY pr.Name DESC;
 
 INSERT INTO User (UserLogin)
     VALUES ('admin')
